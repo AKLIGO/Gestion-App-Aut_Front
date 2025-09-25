@@ -1,0 +1,88 @@
+<header class="border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        
+        <!-- Logo -->
+        <!-- <div class="flex-shrink-0">
+          <a routerLink="/">
+            <img
+              src="assets/images/logo.png"
+              alt="Logo"
+              class="h-10 w-auto"
+            />
+          </a>
+        </div> -->
+  
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex space-x-12">
+          <a routerLink="/" routerLinkActive="text-indigo-600"
+             class="text-lg font-semibold text-gray-900 hover:text-indigo-600 no-underline">
+            Home
+          </a>
+  
+          <a routerLink="/about" routerLinkActive="text-indigo-600"
+             class="text-lg font-semibold text-gray-900 hover:text-indigo-600 no-underline">
+            About
+          </a>
+  
+          <a routerLink="/contact" routerLinkActive="text-indigo-600"
+             class="text-lg font-semibold text-gray-900 hover:text-indigo-600 no-underline">
+            Contact
+          </a>
+        </nav>
+  
+               
+        <div class="flex items-center space-x-6">
+
+          @if (!isAuthenticated) {
+          <a routerLink="/login" routerLinkActive="text-indigo-600"
+             class="text-lg font-semibold text-gray-900 hover:text-indigo-600 no-underline">
+            Login
+          </a>
+
+          <a routerLink="/register"
+             class="inline-block px-5 py-2 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg no-underline">
+            Sign up
+          </a>
+          }
+
+          
+          @if (isAuthenticated) {
+          <div class="flex items-center space-x-4">
+         
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">
+                {{ getUserDisplayName() }}
+              </span>
+            </div>
+
+            
+            <button 
+              (click)="logout()"
+              [disabled]="isLoading"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+              
+              @if (isLoading) {
+              <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Déconnexion...
+              } @else {
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+              Déconnexion
+              }
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </header>
+  
