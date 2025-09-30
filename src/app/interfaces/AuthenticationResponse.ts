@@ -1,3 +1,6 @@
+import { Utilisateurs } from "./Utilisateurs";
+
 export interface AuthenticationResponse{
-    token?:string;
+    token:string;
+    user:Utilisateurs
 }

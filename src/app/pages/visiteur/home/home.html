@@ -1,0 +1,49 @@
+
+  <!-- Section Hero -->
+  <section 
+    class="relative h-screen w-full bg-cover bg-center flex items-center justify-center"
+    style="background-image: url('../../../../assets/img1.jpg');">    
+    <!-- Overlay sombre pour lisibilité -->
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <!-- Contenu -->
+    <div class="relative text-center text-white px-4">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4">Trouvez votre location idéale</h1>
+      <p class="text-xl md:text-2xl mb-8">Appartements et véhicules à louer en quelques clics</p>
+      <a 
+        href="#offres" 
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
+        Découvrir nos offres
+      </a>
+    </div>
+  </section>
+
+  <!-- Section Offres -->
+  <section id="offres" class="py-16 px-4 bg-gray-100">
+    <h2 class="text-3xl font-bold text-center mb-12">Nos offres</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Carte Appartement -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1560185127-6e1e5296d5c3?auto=format&fit=crop&w=800&q=80" alt="Appartement" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-xl mb-2">Appartement Moderne</h3>
+          <p class="text-gray-600 mb-2">Situé en centre-ville, entièrement équipé.</p>
+          <a href="#" class="text-indigo-600 font-semibold hover:underline">Voir plus</a>
+        </div>
+      </div>
+
+      <!-- Carte Voiture -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1580316011565-04e3c2a8c5c8?auto=format&fit=crop&w=800&q=80" alt="Voiture" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-xl mb-2">Voiture de Luxe</h3>
+          <p class="text-gray-600 mb-2">Parfait pour vos déplacements urbains et voyages.</p>
+          <a href="#" class="text-indigo-600 font-semibold hover:underline">Voir plus</a>
+        </div>
+      </div>
+
+      <!-- Ajoutez d'autres cartes ici -->
+
+    </div>
+  </section>

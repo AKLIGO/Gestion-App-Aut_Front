@@ -33,30 +33,31 @@ export class Login implements OnInit{
     
   }
 
-  onSubmit():void {
-    this.isLoading=true;
-    this.errorMessage=''
-
+  onSubmit(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+  
     this.authService.authenticate(this.authRequest).subscribe({
       next: (response) => {
-        // stocker le token
-        this.tokenService.setAccessToken(response.token);        
-        
-        /**
-         * Redirection 
-         */
+        // Stocker le token
+        this.tokenService.setAccessToken(response.token);
+  
+        // Mettre à jour l'utilisateur courant dans le service
+        this.authService.login(response.user);
+  
+        // Redirection
         this.router.navigate(['/']);
       },
-      error:(error)=>{
-        this.errorMessage =' Erreur de connexion.verifiez vos identifiants'
+      error: (error) => {
+        this.errorMessage = 'Erreur de connexion. Vérifiez vos identifiants';
         this.isLoading = false;
       },
-      complete:() =>{
+      complete: () => {
         this.isLoading = false;
       }
     });
   }
-
+  
 
 
 

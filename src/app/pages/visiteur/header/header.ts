@@ -1,77 +1,58 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, computed } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UtilisateurService } from '../../../services/utilisateur-service';
+import { filter } from 'rxjs';
+
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './header.html',
-  styleUrl: './header.css'
+  styleUrls: ['./header.css']
 })
 export class Header {
 
-    constructor(private authServices:UtilisateurService,
-            private router:Router
-    ){}
+  isAuthenticated = computed(() => this.authServices.isAuthenticatedd());
+  user = computed(() => this.authServices.currentUser());
+  isLoading = computed(() => this.authServices.isLoading());
 
-    //Getters pour l'etat d'authentification
+  currentRoute: string = '';
 
-    get isAuthenticated(){
-      return this.authServices.isAuthenticatedd();
-    }
+  constructor(private authServices: UtilisateurService, private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.currentRoute = event.urlAfterRedirects;
+      });
+  }
 
-    get currentUser(){
-      return this.authServices.currentUser();
-    }
+  hideInscriptionButton(): boolean {
+    return this.isAuthenticated() || this.currentRoute === '/login';
+  }
 
-    get isLoading(){
-      return this.authServices.isLoading();
-    }
+  hideConnexionButton(): boolean {
+    return this.isAuthenticated();
+  }
 
-    /**
-     * Deconnexion
-     */
-    logout():void{
-      this.authServices.setLoading(true);
-      this.authServices.logout().subscribe({
-        next:() => {
-          this.authServices.logoutt();
-          this.router.navigate(['/']);
-          this.authServices.setLoading(false);
-        },
-
-        error:(error)=> {
-          console.error('Erreur lors de la déconnexion:', error);
-        // Déconnexion locale même en cas d'erreur serveur
-
+  logout(): void {
+    this.authServices.setLoading(true);
+    this.authServices.logout().subscribe({
+      next: () => {
         this.authServices.logoutt();
         this.router.navigate(['/']);
-        this.authServices.setLoading(false);
-        }
-      });
+      },
+      error: (err) => {
+        console.error(err);
+        this.authServices.logoutt();
+        this.router.navigate(['/']);
+      },
+      complete: () => this.authServices.setLoading(false)
+    });
+  }
 
-    }
-    /**
-   * Obtenir le nom  de l'utilisateur
-   
-   */
-
-    getUserDisplayName():string {
-      const user = this.currentUser;
-      if(!user)
-        return '';
-
-      if(user.nom && user.prenoms){
-        return `${user.nom} ${user.prenoms}`;
-
-      }else if(user.nom){
-        return user.nom;
-      }else if (user.email) {
-        return user.email;
-      }
-      return 'utilisateur';
-    }
-
-
+  getUserDisplayName(): string {
+    const currentUser = this.user();
+    return currentUser ? `${currentUser.nom || ''} ${currentUser.prenoms || ''}`.trim() || currentUser.email || 'utilisateur' : 'utilisateur';
+  }
 }

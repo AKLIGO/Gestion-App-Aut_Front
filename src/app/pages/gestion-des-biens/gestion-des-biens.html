@@ -1,0 +1,104 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+  <h2 class="text-2xl font-bold mb-6 text-center">Ajouter un Appartement</h2>
+
+  <form [formGroup]="ajoutForm" (ngSubmit)="submit()" class="space-y-4">
+
+    <!-- Nom -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Nom</label>
+      <input type="text" formControlName="nom" placeholder="Nom de l'appartement"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <div *ngIf="ajoutForm.get('nom')?.invalid && ajoutForm.get('nom')?.touched" class="text-red-500 text-sm mt-1">
+        Le nom est requis.
+      </div>
+    </div>
+
+    <!-- Adresse -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Adresse</label>
+      <input type="text" formControlName="adresse" placeholder="Adresse"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <div *ngIf="ajoutForm.get('adresse')?.invalid && ajoutForm.get('adresse')?.touched" class="text-red-500 text-sm mt-1">
+        L'adresse est requise.
+      </div>
+    </div>
+
+    <!-- Prix -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Prix</label>
+      <input type="number" formControlName="prix" placeholder="Prix"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <div *ngIf="ajoutForm.get('prix')?.invalid && ajoutForm.get('prix')?.touched" class="text-red-500 text-sm mt-1">
+        Le prix doit être supérieur à 0.
+      </div>
+    </div>
+
+    <!-- Numéro -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Numéro</label>
+      <input type="number" formControlName="numero" placeholder="Numéro"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    </div>
+
+    <!-- Superficie -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Superficie</label>
+      <input type="text" formControlName="superficie" placeholder="Superficie"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    </div>
+
+    <!-- Nombre de pièces -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Nombre de pièces</label>
+      <input type="number" formControlName="nbrDePieces" placeholder="Nombre de pièces"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Description</label>
+      <textarea formControlName="description" placeholder="Description"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+    </div>
+
+    <!-- Type Appartement -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Type</label>
+      <select formControlName="type"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="" disabled selected>Choisir un type</option>
+        <option *ngFor="let type of typeOptions" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <!-- Statut Appartement -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Statut</label>
+      <select formControlName="statut"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="" disabled selected>Choisir un statut</option>
+        <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Immeuble</label>
+      <select formControlName="immeubleId"
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="">Choisir un immeuble</option>
+        <option *ngFor="let immeuble of immeubleOptions" [value]="immeuble.id">
+          {{ immeuble.nom }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Bouton Soumettre -->
+    <div class="text-center">
+      <button type="submit"
+        class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition">
+        Ajouter Appartement
+      </button>
+    </div>
+
+  </form>
+</div>
