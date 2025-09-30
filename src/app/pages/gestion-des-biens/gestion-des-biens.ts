@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators,FormBuilder,ReactiveFormsModule } from '@angular/forms';
-import { Router,ActivatedRoute } from '@angular/router';
+import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TypeAppartement } from '../../interfaces/gestions/Appartement/TypeAppartement';
 import { StatutAppartement } from '../../interfaces/gestions/Appartement/StatutAppartement';
 import { ServiceApp } from '../../services/serviceApp/service-app';
 import { ServiceImm } from '../../services/servicesImm/service-imm';
 import { ImmeubleCreate } from '../../interfaces/gestions/Immeuble/ImmeubleCreate';
+
 @Component({
   selector: 'app-gestion-des-biens',
-  imports: [CommonModule,ReactiveFormsModule ],
   templateUrl: './gestion-des-biens.html',
-  styleUrl: './gestion-des-biens.css'
+  styleUrls: ['./gestion-des-biens.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
-export class GestionDesBiens implements OnInit{
+export class GestionDesBiens implements OnInit {
 
   ajoutForm: FormGroup;
   selectedFiles: File[] = [];
   previewImages: string[] = [];
   appartementId?: number;
   existingImages: any[] = [];
-  immeubleOptions:ImmeubleCreate[]=[];
+  immeubleOptions: ImmeubleCreate[] = [];
 
   typeOptions = Object.values(TypeAppartement);
   statutOptions = Object.values(StatutAppartement);
@@ -28,10 +29,11 @@ export class GestionDesBiens implements OnInit{
   constructor(
     private fb: FormBuilder,
     private serviceApp: ServiceApp,
-    private serviceImm:ServiceImm,
+    private serviceImm: ServiceImm,
     private router: Router,
     private route: ActivatedRoute
-  ){
+  ) {
+    // Initialisation du formulaire
     this.ajoutForm = this.fb.group({
       nom: ['', Validators.required],
       adresse: ['', Validators.required],
@@ -44,47 +46,53 @@ export class GestionDesBiens implements OnInit{
       statut: [null, Validators.required], // StatutAppartement
       createdAt: [''],
       lastModifiedDate: [''],
-      immeubleId: [null],
+      immeubleId: [null, Validators.required], // ID de l'immeuble sélectionné
       images: [[]] // tableau vide par défaut
-    })
-
+    });
   }
 
-  ngOnInit():void{
-
+  ngOnInit(): void {
+    // Récupération des immeubles pour le select
     this.serviceImm.getAllImmeubles().subscribe({
-      next: (res)=> this.immeubleOptions = res,
-      error: (err) => console.error('erreur recuperation immeubles :', err)
-    })
-
+      next: (res) => this.immeubleOptions = res,
+      error: (err) => console.error('Erreur récupération immeubles :', err)
+    });
   }
 
   submit() {
-    if(this.ajoutForm.invalid){
-      console.warn('formulaire invalid')
+    if (this.ajoutForm.invalid) {
+      console.warn('Formulaire invalide');
       return;
-    }// Récupérer les données du formulaire
-    const newAppartement = this.ajoutForm.value;
-
-     // Récupérer l'objet Immeuble correspondant à l'ID sélectionné
-
-    // const selectedImmeuble = this.immeubleOptions.find(i => i.id === formValue.immeubleId);
-    
-     // Appel au service pour créer un appartement (JSON simple)
-  this.serviceApp.addAppartement(newAppartement).subscribe({
-    next: (res) => {
-      console.log('Appartement ajouté avec succès :', res);
-      // Rediriger vers la liste des appartements ou autre page
-      this.router.navigate(['/appartements']);
-    },
-    error: (err) => {
-      console.error('Erreur lors de l’ajout de l’appartement :', err);
-      alert('Impossible d’ajouter l’appartement. Vérifiez la console pour plus de détails.');
-    }
-  })
-
-    ;
-
     }
 
+    // Récupérer les valeurs du formulaire
+    const formValue = this.ajoutForm.value;
+
+    // Récupérer l'objet Immeuble correspondant à l'ID sélectionné
+
+    const selectedImmeuble = this.immeubleOptions.find(i => i.id === Number(formValue.immeubleId));
+
+    if (!selectedImmeuble) {
+      alert('Veuillez sélectionner un immeuble valide');
+      return;
+    }
+
+    // Construire l'objet à envoyer au backend
+    const newAppartement = {
+      ...formValue,
+      immeuble: { id: selectedImmeuble.id } // relation ManyToOne
+    };
+
+    // Appel au service pour créer un appartement
+    this.serviceApp.addAppartement(newAppartement).subscribe({
+      next: (res) => {
+        console.log('Appartement ajouté avec succès :', res);
+        this.router.navigate(['/appartements']);
+      },
+      error: (err) => {
+        console.error('Erreur lors de l’ajout de l’appartement :', err);
+        alert('Impossible d’ajouter l’appartement. Vérifiez la console pour plus de détails.');
+      }
+    });
+  }
 }
