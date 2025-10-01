@@ -7,3 +7,13 @@ export interface ImagesCreate{
     appartementId?: number; 
     vehiculeId?: number;
 }
+
+export interface ImageUploadRequest{
+    libelle?: string;
+    file?: File;
+}
+
+export interface ImageUploadResponse {
+    message: string;
+    id?: number;
+}

@@ -4,6 +4,7 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Home } from './pages/visiteur/home/home';
 import { GestionDesBiens } from './pages/gestion-des-biens/gestion-des-biens';
+import { Image } from './pages/image/image';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -11,6 +12,7 @@ export const routes: Routes = [
     {path:'register',component:Register},
     {path:'', component:Home},
     {path:'biens', component:GestionDesBiens},
+    {path:'image', component:Image},
     { path: '**', redirectTo: '' },
     
 

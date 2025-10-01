@@ -1,6 +1,9 @@
-<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-  <h2 class="text-2xl font-bold mb-6 text-center">Ajouter un Appartement</h2>
-
+<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+  <h2 class="text-2xl font-bold mb-6 text-center">
+    {{ isEditMode ? 'Modifier Appartement' : 'Ajouter un Appartement' }}
+  </h2>
+ 
+  <!-- FORMULAIRE -->
   <form [formGroup]="ajoutForm" (ngSubmit)="submit()" class="space-y-4">
 
     <!-- Nom -->
@@ -18,25 +21,12 @@
       <label class="block text-sm font-medium mb-1">Adresse</label>
       <input type="text" formControlName="adresse" placeholder="Adresse"
         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-      <div *ngIf="ajoutForm.get('adresse')?.invalid && ajoutForm.get('adresse')?.touched" class="text-red-500 text-sm mt-1">
-        L'adresse est requise.
-      </div>
     </div>
 
     <!-- Prix -->
     <div>
       <label class="block text-sm font-medium mb-1">Prix</label>
       <input type="number" formControlName="prix" placeholder="Prix"
-        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-      <div *ngIf="ajoutForm.get('prix')?.invalid && ajoutForm.get('prix')?.touched" class="text-red-500 text-sm mt-1">
-        Le prix doit être supérieur à 0.
-      </div>
-    </div>
-
-    <!-- Numéro -->
-    <div>
-      <label class="block text-sm font-medium mb-1">Numéro</label>
-      <input type="number" formControlName="numero" placeholder="Numéro"
         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
     </div>
 
@@ -66,7 +56,7 @@
       <label class="block text-sm font-medium mb-1">Type</label>
       <select formControlName="type"
         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="" disabled selected>Choisir un type</option>
+        <option value="" disabled>Choisir un type</option>
         <option *ngFor="let type of typeOptions" [value]="type">{{ type }}</option>
       </select>
     </div>
@@ -76,32 +66,74 @@
       <label class="block text-sm font-medium mb-1">Statut</label>
       <select formControlName="statut"
         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="" disabled selected>Choisir un statut</option>
+        <option value="" disabled>Choisir un statut</option>
         <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
       </select>
     </div>
 
+    <!-- Immeuble -->
     <div>
       <label class="block text-sm font-medium mb-1">Immeuble</label>
       <select formControlName="immeubleId"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="" disabled selected>Choisir un immeuble</option>
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="" disabled>Choisir un immeuble</option>
         <option *ngFor="let immeuble of immeubleOptions" [value]="immeuble.id">
           {{ immeuble.nom }} - {{ immeuble.ville }}
         </option>
       </select>
-      <div *ngIf="ajoutForm.get('immeubleId')?.invalid && ajoutForm.get('immeubleId')?.touched" class="text-red-500 text-sm mt-1">
-        L'immeuble est requis.
-      </div>
     </div>
 
-    <!-- Bouton Soumettre -->
-    <div class="text-center">
+    <!-- Boutons -->
+    <div class="flex justify-center space-x-4">
       <button type="submit"
         class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition">
-        Ajouter Appartement
+        {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+      </button>
+
+      <button *ngIf="isEditMode" type="button" (click)="cancelEdit()"
+        class="bg-gray-400 text-white px-6 py-2 rounded hover:bg-gray-500 transition">
+        Annuler
       </button>
     </div>
-
   </form>
+
+  <!-- LISTE DES APPARTEMENTS -->
+  <div class="mt-10">
+    <h3 class="text-xl font-bold mb-4">Liste des appartements</h3>
+    <table class="w-full border border-gray-300 rounded">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="p-2 border">Nom</th>
+          <th class="p-2 border">Adresse</th>
+          <th class="p-2 border">Prix</th>
+          <th class="p-2 border">Type</th>
+          <th class="p-2 border">Statut</th>
+          <th class="p-2 border">Immeuble</th>
+          <th class="p-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of appartements">
+          <td class="p-2 border">{{ app.nom }}</td>
+          <td class="p-2 border">{{ app.adresse }}</td>
+          <td class="p-2 border">{{ app.prix }}</td>
+          <td class="p-2 border">{{ app.type }}</td>
+          <td class="p-2 border">{{ app.statut }}</td>
+          <td class="p-2 border">
+            {{ getImmeubleNom(app) }}
+          </td>
+          <td class="p-2 border space-x-2">
+            <button (click)="editAppartement(app)"
+              class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">
+              Modifier
+            </button>
+            <button (click)="deleteAppartement(app.id)"
+              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
