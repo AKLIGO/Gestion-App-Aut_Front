@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ImmeubleCreate } from '../../interfaces/gestions/Immeuble/ImmeubleCreate';
 @Injectable({
@@ -11,18 +11,26 @@ export class ServiceImm {
 
   constructor(private http: HttpClient){};
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('access_token'); // ou sessionStorage
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  }
+
   /**
    * Recuperer tous les immeubles
    */
 
   getAllImmeubles():Observable<ImmeubleCreate[]>{
-    return this.http.get<ImmeubleCreate[]>(this.apiUrl);
+    return this.http.get<ImmeubleCreate[]>(this.apiUrl,{ headers: this.getHeaders() });
   }
 
   // ajouter un nouvel immeuble
 
   addImmeuble(newImmeuble: ImmeubleCreate):Observable<ImmeubleCreate>{
-    return this.http.post<ImmeubleCreate>(this.apiUrl,newImmeuble);
+    return this.http.post<ImmeubleCreate>(this.apiUrl,newImmeuble,{ headers: this.getHeaders() });
   }
 
   /**
@@ -31,7 +39,7 @@ export class ServiceImm {
    */
   
     deleteImmeuble(id:number):Observable<void>{
-      return this.http.delete<void>(`${this.apiUrl}/${id}`);
+      return this.http.delete<void>(`${this.apiUrl}/${id}`,{ headers: this.getHeaders() });
 
     }
 
@@ -40,7 +48,7 @@ export class ServiceImm {
      */
     
     updateImmeuble(id:number, immeubleUpdate:ImmeubleCreate):Observable<ImmeubleCreate>{
-      return this.http.put<ImmeubleCreate>(`${this.apiUrl}/${id}`,immeubleUpdate);
+      return this.http.put<ImmeubleCreate>(`${this.apiUrl}/${id}`,immeubleUpdate,{ headers: this.getHeaders() });
     }
 
     

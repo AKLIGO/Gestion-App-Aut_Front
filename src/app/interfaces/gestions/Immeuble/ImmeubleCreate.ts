@@ -10,7 +10,7 @@ export interface ImmeubleCreate{
     description: string;
     type: TypeImmeuble; // TypeImmeuble 
     appartements?: AppartementCreate[]; // facultatif si tu ne charges pas les appartements
-    utilisateurId: number; // id de l'utilisateur propriétaire
+
     createdAt: string; 
     lastModifiedDate?: string; // facultatif
 }

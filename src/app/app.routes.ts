@@ -5,6 +5,7 @@ import { Register } from './pages/register/register';
 import { Home } from './pages/visiteur/home/home';
 import { GestionDesBiens } from './pages/gestion-des-biens/gestion-des-biens';
 import { Image } from './pages/image/image';
+import { Immeuble } from './pages/immeuble/immeuble';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -13,6 +14,7 @@ export const routes: Routes = [
     {path:'', component:Home},
     {path:'biens', component:GestionDesBiens},
     {path:'image', component:Image},
+    {path:'immeuble', component:Immeuble},
     { path: '**', redirectTo: '' },
     
 
