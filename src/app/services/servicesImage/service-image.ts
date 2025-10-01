@@ -40,5 +40,18 @@ export class ServiceImage {
 
     return this.http.post<ImagesCreate>(`${this.apiUrl}/ajoutImaAppNom`, formData);
   }
+
+  /**
+   * recuperer une image a partir de son identifiant
+   */
+
+  getImageById(id:number):Observable<Blob>{
+    return this.http.get(`${this.apiUrl}/${id}`,{responseType:'blob'});
+  }
+
+   //creer une url d'image
+   createImageUrl(blob:Blob):string{   
+    return URL.createObjectURL(blob);
+}
   
 }

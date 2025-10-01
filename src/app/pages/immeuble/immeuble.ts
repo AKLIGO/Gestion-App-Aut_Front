@@ -52,6 +52,14 @@ export class Immeuble implements OnInit {
    */
 
   addImmeuble():void {
+
+    const token = localStorage.getItem('access_token');
+    console.log('Token avant POST:', token); 
+  
+    if (!token) {
+      alert('Token non trouvé ! Veuillez vous reconnecter.');
+      return;
+    }
     if (!this.newImmeuble.nom || !this.newImmeuble.ville || !this.newImmeuble.type) {
       alert('Veuillez remplir les champs obligatoires.');
       return;
@@ -59,8 +67,7 @@ export class Immeuble implements OnInit {
 
     const immeubleToAdd: ImmeubleCreate={
       ...this.newImmeuble,
-      id:0, //backend genera l'ID
-      utilisateurId: 1, // à remplacer par l’utilisateur connecté
+      
       nbrAppartment:this.newImmeuble.nbrAppartment ||0,
       nbrEtage: this.newImmeuble.nbrEtage || 0,
       description: this.newImmeuble.description || "",
@@ -81,15 +88,21 @@ export class Immeuble implements OnInit {
    */
 
   deleteImmeuble(id:number):void {
+    console.log("=== BOUTON SUPPRIMER CLIQUÉ ===", id);
     if(confirm('voulez-vous vraiment supprimer cet immeuble ?')){
+      console.log("Confirmation OK, envoi de la requête DELETE...");
       this.immeubleService.deleteImmeuble(id).subscribe({
         next: ()=> {
-          this.immeubles = this.immeubles.filter(i => i.id !==id);
+          console.log("Supprimé avec succès");
+          this.immeubles = this.immeubles.filter(i => i.id !== id);
         },
         error:(err) => console.error('Erreur suppression immeuble',err)
       });
+    } else {
+      console.log("Annulation par l'utilisateur");
     }
   }
+  
 
   /**
    * preparer la modification

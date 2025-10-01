@@ -30,7 +30,12 @@ export class ServiceImm {
   // ajouter un nouvel immeuble
 
   addImmeuble(newImmeuble: ImmeubleCreate):Observable<ImmeubleCreate>{
-    return this.http.post<ImmeubleCreate>(this.apiUrl,newImmeuble,{ headers: this.getHeaders() });
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.post<ImmeubleCreate>(this.apiUrl,newImmeuble,{ headers});
   }
 
   /**
@@ -39,6 +44,7 @@ export class ServiceImm {
    */
   
     deleteImmeuble(id:number):Observable<void>{
+      console.log('Appel API DELETE:', `${this.apiUrl}/${id}`);
       return this.http.delete<void>(`${this.apiUrl}/${id}`,{ headers: this.getHeaders() });
 
     }

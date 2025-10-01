@@ -6,6 +6,7 @@ export interface ImagesCreate{
     typeMime?: string;
     appartementId?: number; 
     vehiculeId?: number;
+    previewUrl?: string;
 }
 
 export interface ImageUploadRequest{
