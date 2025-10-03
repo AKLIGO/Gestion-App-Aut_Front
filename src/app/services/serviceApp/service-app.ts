@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppartementCreate } from '../../interfaces/gestions/Appartement/AppartementCreate';
 import { App } from '../../app';
 import { StatutAppartement } from '../../interfaces/gestions/Appartement/StatutAppartement';
+import { AppartementDTO } from '../../interfaces/gestions/Appartement/AppartementDTO';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,14 @@ export class ServiceApp {
 
   getAllAppartement(): Observable<AppartementCreate[]> {
     return this.http.get<AppartementCreate[]>(this.apiUrl);
+  }
+
+  /**
+   * recupereer les appartement et les images associer
+   */
+
+  getAllAppartementDto():Observable<AppartementDTO[]>{
+    return this.http.get<AppartementDTO[]>(`${this.apiUrl}/list`);
   }
 
   /**

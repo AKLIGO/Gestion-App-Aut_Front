@@ -53,10 +53,8 @@ export class ServiceImage {
    * Recuperation du fichier physique
    */
 
-  getImageFileUrl(fileName:string): string{
-
-    return `${this.apiUrl}/file/${fileName}`;
-
+  getImageFileUrl(fileName: string): string {
+    return `${this.apiUrl}/file/${encodeURIComponent(fileName)}`;
   }
 
    //creer une url d'image

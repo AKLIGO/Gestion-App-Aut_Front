@@ -15,9 +15,9 @@
     <div *ngFor="let appart of pagedAppartements; trackBy: trackByAppartementId" class="bg-white shadow-lg rounded-lg overflow-hidden">
       
       <!-- Image Appartement -->
-      <img [src]="appart.images?.[0]?.previewUrl ?? 'https://via.placeholder.com/400x200'" 
-           [alt]="appart.nom" 
-           class="w-full h-48 object-cover">
+      <img [src]="appart.images && appart.images.length > 0 ? appart.images[0].previewUrl : 'https://via.placeholder.com/400x200'" 
+     [alt]="appart.nom" 
+     class="w-full h-48 object-cover">
 
       <div class="p-4">
         <h3 class="font-bold text-xl mb-2">{{ appart.nom }}</h3>
@@ -60,15 +60,17 @@
       <button class="text-gray-500 hover:text-gray-800" (click)="closeDetails()">✕</button>
     </div>
     <div class="p-4 space-y-4">
-      <div *ngIf="(selectedAppartement.images ?? []).length > 0; else noImages" class="space-y-2">
-        <img *ngFor="let img of selectedAppartement.images" [src]="img.previewUrl" class="w-full h-64 object-cover rounded">
+      <div *ngIf="selectedAppartement.images && selectedAppartement.images.length > 0; else noImages" class="space-y-2">
+        <img *ngFor="let img of selectedAppartement.images" 
+             [src]="img.previewUrl ?? 'https://via.placeholder.com/400x200'" 
+             class="w-full h-64 object-cover rounded">
       </div>
       <ng-template #noImages>
         <div class="p-8 bg-gray-200 text-center rounded">Aucune image disponible</div>
       </ng-template>
 
       <div class="grid grid-cols-2 gap-4">
-        <div><strong>Superficie:</strong> {{ selectedAppartement.superficie ?? 0 }} m²</div>
+        <div><strong>Superficie:</strong> {{ selectedAppartement.superficie }} m²</div>
         <div><strong>Pièces:</strong> {{ selectedAppartement.nbrDePieces }}</div>
         <div><strong>Prix:</strong> {{ selectedAppartement.prix | currency:'XOF' }}</div>
         <div><strong>Type:</strong> {{ selectedAppartement.type }}</div>
