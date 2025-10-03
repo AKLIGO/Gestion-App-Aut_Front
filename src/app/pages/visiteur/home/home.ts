@@ -20,6 +20,7 @@ export class Home implements OnInit {
   currentPage: number = 1;
   pageSize: number = 5;
   totalPages: number = 1;
+  selectedImageIndex: number = 0;
 
   selectedAppartement?: AppartementDTO;
 
@@ -74,7 +75,23 @@ export class Home implements OnInit {
 
   openDetails(appart: AppartementDTO) {
     this.selectedAppartement = appart;
+    this.selectedImageIndex = 0;
     
+  }
+
+    // navigation images modal
+  prevImage(): void {
+    if (!this.selectedAppartement) return;
+    const len = (this.selectedAppartement.images ?? []).length;
+    if (len <= 1) return;
+    this.selectedImageIndex = (this.selectedImageIndex - 1 + len) % len;
+  }
+
+  nextImage(): void {
+    if (!this.selectedAppartement) return;
+    const len = (this.selectedAppartement.images ?? []).length;
+    if (len <= 1) return;
+    this.selectedImageIndex = (this.selectedImageIndex + 1) % len;
   }
 
   closeDetails() {
