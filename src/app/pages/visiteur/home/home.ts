@@ -74,6 +74,7 @@ export class Home implements OnInit {
 
   openDetails(appart: AppartementCreate) {
     this.selectedAppartement = appart;
+    
   }
 
   closeDetails() {
@@ -89,25 +90,25 @@ export class Home implements OnInit {
    */
 
   private prepareCardImage(): void{
-    this.appartements.forEach(appart => {
-      const firstImage = (appart.images ?? [])[0];
-      if(firstImage && !firstImage.previewUrl){
-        if(firstImage.photo){
-          const mine = firstImage.typeMime || 'image/jpeg';
-          firstImage.previewUrl = `data:${mine};base64,${firstImage.photo}`;
-        } else if(firstImage.id){
-              this.imageService.getImageById(firstImage.id).subscribe({
-                next:(blob:Blob)=>{
-                  firstImage.previewUrl = this.imageService.createImageUrl(blob);
-                },
-                error:err => console.error('erreur recuperation image', err)
-              });
-        }
-      }
-    })
+      this.appartements.forEach(appart=> {
+        (appart.images ?? []).forEach(img => {
+          if(!img.previewUrl && img.nomFichier){
+            img.previewUrl = this.imageService.getImageFileUrl(img.nomFichier);
+            console.log(`Image URL préparée: ${img.previewUrl}`);
+          }
+        });
+      });
   }
 
 
+  getImageUrl(img: any): string {
+    // Si l’URL a déjà été préparée
+    if (img?.previewUrl) return img.previewUrl;
+    // Si le nom du fichier existe, génère l’URL
+    if (img?.nomFichier) return this.imageService.getImageFileUrl(img.nomFichier);
+    // Sinon, image par défaut
+    return 'https://via.placeholder.com/400x200';
+  }
 
 
 }

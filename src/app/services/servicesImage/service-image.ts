@@ -45,13 +45,23 @@ export class ServiceImage {
    * recuperer une image a partir de son identifiant
    */
 
-  getImageById(id:number):Observable<Blob>{
-    return this.http.get(`${this.apiUrl}/${id}`,{responseType:'blob'});
+  getImageById(id:number):Observable<any>{
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+
+  /**
+   * Recuperation du fichier physique
+   */
+
+  getImageFileUrl(fileName:string): string{
+
+    return `${this.apiUrl}/file/${fileName}`;
+
   }
 
    //creer une url d'image
-   createImageUrl(blob:Blob):string{   
-    return URL.createObjectURL(blob);
-}
+//    createImageUrl(blob:Blob):string{   
+//     return URL.createObjectURL(blob);
+// }
   
 }
