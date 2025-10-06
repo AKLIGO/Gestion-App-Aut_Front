@@ -6,6 +6,9 @@ import { Home } from './pages/visiteur/home/home';
 import { GestionDesBiens } from './pages/gestion-des-biens/gestion-des-biens';
 import { Image } from './pages/image/image';
 import { Immeuble } from './pages/immeuble/immeuble';
+import { Reservation } from './pages/reservation/reservation';
+import { App } from './app';
+import { Appartement } from './pages/appartement/appartement';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -15,6 +18,8 @@ export const routes: Routes = [
     {path:'biens', component:GestionDesBiens},
     {path:'image', component:Image},
     {path:'immeuble', component:Immeuble},
+    {path:'reservations', component:Reservation},
+    {path:'appartement', component:Appartement},
     { path: '**', redirectTo: '' },
     
 

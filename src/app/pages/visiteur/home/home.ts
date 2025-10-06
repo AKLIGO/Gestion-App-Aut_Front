@@ -5,11 +5,12 @@ import { AppartementDTO } from '../../../interfaces/gestions/Appartement/Apparte
 import { StatutAppartement } from '../../../interfaces/gestions/Appartement/StatutAppartement';
 import { TypeAppartement } from '../../../interfaces/gestions/Appartement/TypeAppartement';
 import { ServiceImage } from '../../../services/servicesImage/service-image';
-
+import { ServiceReservation } from '../../../services/serviceReservation/ServiceReservation';
+import { FormsModule } from '@angular/forms'; // pour ngModel
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule,CurrencyPipe],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
@@ -21,13 +22,18 @@ export class Home implements OnInit {
   pageSize: number = 5;
   totalPages: number = 1;
   selectedImageIndex: number = 0;
-
+selectedAppartementForReservation?: AppartementDTO; 
   selectedAppartement?: AppartementDTO;
 
   StatutAppartement = StatutAppartement;
   TypeAppartement = TypeAppartement;
 
-  constructor(private serviceApp: ServiceApp, private imageService:ServiceImage) {}
+  reservationForm = {
+  dateDebut: '',
+  dateFin: ''
+};
+
+  constructor(private serviceApp: ServiceApp, private imageService:ServiceImage,private serviceReservation:ServiceReservation) {}
 
   ngOnInit(): void {
     this.serviceApp.getAllAppartementDto().subscribe({
@@ -46,6 +52,17 @@ export class Home implements OnInit {
     });
 
   }
+
+showReservationForm(appart: AppartementDTO) {
+  // Si c’est déjà le même appartement, on cache le formulaire
+  if (this.selectedAppartementForReservation?.id === appart.id) {
+    this.selectedAppartementForReservation = undefined;
+    this.reservationForm = { dateDebut: '', dateFin: '' };
+  } else {
+    this.selectedAppartementForReservation = appart;
+    this.reservationForm = { dateDebut: '', dateFin: '' };
+  }
+}
 
   updatePagedAppartements() {
     const start = (this.currentPage - 1) * this.pageSize;
@@ -118,20 +135,39 @@ export class Home implements OnInit {
   }
 
 
-  // getImageUrl(img: any): string {
-  //   // Si l’URL a déjà été préparée
-  //   if (img?.previewUrl) return img.previewUrl;
-  //   // Si le nom du fichier existe, génère l’URL
-  //   if (img?.nomFichier) return this.imageService.getImageFileUrl(img.nomFichier);
-  //   // Sinon, image par défaut
-  //   return 'https://via.placeholder.com/400x200';
-  // }
-
-  getImageUrl(appart: AppartementDTO): string {
-    return appart.images && appart.images.length > 0 
-      ? appart.images[0].previewUrl 
-      : 'https://via.placeholder.com/400x200';
+  getImageUrl(img: any): string {
+    // Si l’URL a déjà été préparée
+    if (img?.previewUrl) return img.previewUrl;
+    // Si le nom du fichier existe, génère l’URL
+    if (img?.nomFichier) return this.imageService.getImageFileUrl(img.nomFichier);
+    // Sinon, image par défaut
+    return 'https://via.placeholder.com/400x200';
   }
 
+  // getImageUrl(appart: AppartementDTO): string {
+  //   return appart.images && appart.images.length > 0 
+  //     ? appart.images[0].previewUrl 
+  //     : 'https://via.placeholder.com/400x200';
+  // }
 
+
+     submitReservation(appart: AppartementDTO) {
+  const request = {
+    dateDebut: this.reservationForm.dateDebut,
+    dateFin: this.reservationForm.dateFin,
+    appartementId: appart.id
+  };
+
+  this.serviceReservation.createreservation(request).subscribe({
+    next: () => {
+      alert('Réservation créée avec succès !');
+      this.selectedAppartementForReservation = undefined;
+    },
+    error: (err) => {
+      console.error('Erreur création réservation:', err);
+      alert('Erreur lors de la création de la réservation.');
+    }
+  });
+}
+  
 }
