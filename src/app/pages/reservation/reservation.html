@@ -11,6 +11,7 @@
         <th class="px-4 py-2 border">Utilisateur</th>
         <th class="px-4 py-2 border">Date Début</th>
         <th class="px-4 py-2 border">Date Fin</th>
+        <th class="px-4 py-2 border">Montant</th>
         <th class="px-4 py-2 border">Statut</th>
         <th class="px-4 py-2 border">Actions</th>
       </tr>
@@ -22,6 +23,7 @@
         <td class="px-4 py-2 border">{{ res.utilisateurNom }} {{ res.utilisateurPrenoms }}</td>
         <td class="px-4 py-2 border">{{ res.dateDebut | date:'dd/MM/yyyy' }}</td>
         <td class="px-4 py-2 border">{{ res.dateFin | date:'dd/MM/yyyy' }}</td>
+        <td class="px-4 py-2 border">{{ res.montant | currency:'XOF' }}</td>
         <td class="px-4 py-2 border">
           <span 
             [ngClass]="{

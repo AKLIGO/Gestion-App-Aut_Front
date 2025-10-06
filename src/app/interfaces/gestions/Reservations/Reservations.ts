@@ -5,6 +5,7 @@ export interface Reservations{
     id?: number;
     dateDebut: Date;
     dateFin: Date;
+    montant: number;
     appartement?: AppartementCreate;
     type:TypeDeRervation;
     status:StatusReservation;
