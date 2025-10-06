@@ -9,6 +9,7 @@ import { Immeuble } from './pages/immeuble/immeuble';
 import { Reservation } from './pages/reservation/reservation';
 import { App } from './app';
 import { Appartement } from './pages/appartement/appartement';
+import { ActivateAccount } from './pages/activate-account/activate-account';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {path:'immeuble', component:Immeuble},
     {path:'reservations', component:Reservation},
     {path:'appartement', component:Appartement},
+    {path:'activate-account', component:ActivateAccount},
     { path: '**', redirectTo: '' },
     
 
