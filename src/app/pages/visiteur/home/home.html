@@ -80,14 +80,15 @@
 
 <!-- Modal Détails -->
 <div *ngIf="selectedAppartement" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-  <div class="bg-white w-full max-w-3xl rounded-lg overflow-hidden shadow-lg">
+  <div class="bg-white w-full max-w-2xl rounded-lg overflow-hidden shadow-lg max-h-[90vh] overflow-y-auto">
+
     
     <!-- Images -->
     <div class="p-4 space-y-4">
       <ng-container *ngIf="(selectedAppartement.images ?? []).length > 0; else noImages">
         <div class="relative">
           <img [src]="getImageUrl(selectedAppartement.images[selectedImageIndex])"
-               class="w-full h-64 object-cover rounded"
+               class="w-full h-52 object-cover rounded-md"
                [alt]="selectedAppartement.nom ?? 'image'">
 
           <button *ngIf="(selectedAppartement.images?.length ?? 0) > 1"
