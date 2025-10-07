@@ -1,10 +1,16 @@
 <!-- Hero Section -->
-<section class="relative h-screen w-full bg-cover bg-center flex items-center justify-center" style="background-image: url('../../../../assets/img1.jpg');">
+<section 
+  class="relative h-screen w-full bg-cover bg-center flex items-center justify-center transition-all duration-1000 ease-in-out"
+  [style.background-image]="images.length ? 'url(' + images[currentImageIndex] + ')' : ''"
+>
   <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
   <div class="relative text-center text-white px-4">
-    <h1 class="text-5xl md:text-6xl font-bold mb-4">Trouvez votre location idéale</h1>
-    <p class="text-xl md:text-2xl mb-8">Appartements et véhicules à louer en quelques clics</p>
-    <a href="#offres" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">Découvrir nos offres</a>
+    <h1 class="text-5xl md:text-6xl font-bold mb-4 animate-fadeIn">Trouvez votre location idéale</h1>
+    <p class="text-xl md:text-2xl mb-8 animate-fadeIn">Appartements et véhicules à louer en quelques clics</p>
+    <a href="#offres" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 animate-fadeIn">
+      Découvrir nos offres
+    </a>
   </div>
 </section>
 

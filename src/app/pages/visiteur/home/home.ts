@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ServiceApp } from '../../../services/serviceApp/service-app';
 import { AppartementDTO } from '../../../interfaces/gestions/Appartement/AppartementDTO';
@@ -7,6 +7,7 @@ import { TypeAppartement } from '../../../interfaces/gestions/Appartement/TypeAp
 import { ServiceImage } from '../../../services/servicesImage/service-image';
 import { ServiceReservation } from '../../../services/serviceReservation/ServiceReservation';
 import { FormsModule } from '@angular/forms'; // pour ngModel
+import { ImagesCreate } from '../../../interfaces/gestions/image/ImagesCreate';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms'; // pour ngModel
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home implements OnInit {
+export class Home implements OnInit,OnDestroy {
 
   appartements: AppartementDTO[] = [];
   pagedAppartements: AppartementDTO[] = [];
@@ -32,10 +33,47 @@ selectedAppartementForReservation?: AppartementDTO;
   dateDebut: '',
   dateFin: ''
 };
-
   constructor(private serviceApp: ServiceApp, private imageService:ServiceImage,private serviceReservation:ServiceReservation) {}
+/**
+ * affichages des images a l'accueil
+ */
+images:string[] = [];
+currentImageIndex: number = 0;
+intervalId: any;
+readonly baseUrl='http://localhost:8080/api/image/file/';
+
+  /**
+   * Gestion des images
+   */
+  loadImages(){
+    this.imageService.getAllImagesLibres().subscribe({
+      next:(data:ImagesCreate[]) => {
+        this.images=data.map(img => this.baseUrl+img.nomFichier);
+        if(this.images.length>0) this.startSlider();
+      },
+    })
+  }
+
+  startSlider(){
+    this.intervalId = setInterval(() => {
+      this.currentImageIndex =(this.currentImageIndex +1) % this.images.length
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if(this.intervalId){
+      clearInterval(this.intervalId);
+    }
+  }
+
+
+
+
 
   ngOnInit(): void {
+
+      // Charger les images libres dès l'initialisation
+  this.loadImages();
     this.serviceApp.getAllAppartementDto().subscribe({
       next: (data) => {
         this.appartements = data;

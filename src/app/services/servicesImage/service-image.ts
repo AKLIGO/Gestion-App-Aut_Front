@@ -57,6 +57,19 @@ export class ServiceImage {
     return `${this.apiUrl}/file/${encodeURIComponent(fileName)}`;
   }
 
+    // Récupérer toutes les images libres
+  getAllImagesLibres(): Observable<ImagesCreate[]> {
+    return this.http.get<ImagesCreate[]>(`${this.apiUrl}/libres`);
+  }
+
+    // Uploader une image libre
+  uploadImageLibre(libelle: string, file: File): Observable<ImagesCreate> {
+    const formData = new FormData();
+    formData.append('libelle', libelle);
+    formData.append('file', file, file.name);
+    return this.http.post<ImagesCreate>(`${this.apiUrl}/upload`, formData);
+  }
+
    //creer une url d'image
 //    createImageUrl(blob:Blob):string{   
 //     return URL.createObjectURL(blob);
