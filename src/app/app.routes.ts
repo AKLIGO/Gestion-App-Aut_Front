@@ -10,6 +10,8 @@ import { Reservation } from './pages/reservation/reservation';
 import { App } from './app';
 import { Appartement } from './pages/appartement/appartement';
 import { ActivateAccount } from './pages/activate-account/activate-account';
+import { Paiement } from './pages/paiement/paiement';
+import { PaiementByReservation } from './pages/paiement-by-reservation/paiement-by-reservation';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -22,6 +24,8 @@ export const routes: Routes = [
     {path:'reservations', component:Reservation},
     {path:'appartement', component:Appartement},
     {path:'activate-account', component:ActivateAccount},
+    {path:'paiements', component:Paiement},
+    {path:'paiement-by-reservation/:reservationId', component:PaiementByReservation},
     { path: '**', redirectTo: '' },
     
 
