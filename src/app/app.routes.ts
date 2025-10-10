@@ -12,6 +12,8 @@ import { Appartement } from './pages/appartement/appartement';
 import { ActivateAccount } from './pages/activate-account/activate-account';
 import { Paiement } from './pages/paiement/paiement';
 import { PaiementByReservation } from './pages/paiement-by-reservation/paiement-by-reservation';
+import { Vehicules } from './pages/vehicules/vehicules';
+import { VehiculesVue } from './pages/vehicules-vue/vehicules-vue';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -25,6 +27,8 @@ export const routes: Routes = [
     {path:'appartement', component:Appartement},
     {path:'activate-account', component:ActivateAccount},
     {path:'paiements', component:Paiement},
+    {path:'gestionVehicules', component:Vehicules},
+    {path:'vehicules', component:VehiculesVue},
     {path:'paiement-by-reservation/:reservationId', component:PaiementByReservation},
     { path: '**', redirectTo: '' },
     

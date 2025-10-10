@@ -9,7 +9,7 @@ import { AppartementDTO } from '../../interfaces/gestions/Appartement/Appartemen
   providedIn: 'root'
 })
 export class ServiceApp {
-
+ 
   private apiUrl = 'http://localhost:8080/api/appartement';
 
   constructor(private http: HttpClient) { }

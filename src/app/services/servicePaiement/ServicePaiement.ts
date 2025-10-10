@@ -31,4 +31,25 @@ export class ServicePaiement {
             return this.http.get<PaiementDTO[]>(`${this.apiUrl}/reservation/${reservationId}`);
       }
 
+        // Supprimer un paiement
+  supprimerPaiement(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/supprimer/${id}`);
+  }
+
+    // Modifier un paiement
+  modifierPaiement(
+    id: number,
+    montant?: number,
+    modePaiement?: string,
+    statut?: string
+  ): Observable<PaiementDTO> {
+    // Construction des paramètres optionnels
+    const params: any = {};
+    if (montant !== undefined) params.montant = montant;
+    if (modePaiement) params.modePaiement = modePaiement;
+    if (statut) params.statut = statut;
+
+    return this.http.put<PaiementDTO>(`${this.apiUrl}/modifier/${id}`, null, { params });
+  }
+
 }

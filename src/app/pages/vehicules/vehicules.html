@@ -1,0 +1,74 @@
+<div class="container p-6 bg-gray-50 rounded-lg shadow">
+  <h2 class="text-2xl font-semibold mb-4">Gestion des Véhicules 🚗</h2>
+
+  <div *ngIf="message" class="bg-green-100 text-green-700 p-2 rounded mb-3">{{ message }}</div>
+
+  <!-- FORMULAIRE D’AJOUT -->
+  <form (ngSubmit)="ajouterVehicule()" class="grid grid-cols-3 gap-3 mb-6">
+    <input class="border p-2" [(ngModel)]="nouveauVehicule.marque" name="marque" placeholder="Marque" required />
+    <input class="border p-2" [(ngModel)]="nouveauVehicule.modele" name="modele" placeholder="Modèle" required />
+    <input class="border p-2" [(ngModel)]="nouveauVehicule.immatriculation" name="immatriculation" placeholder="Immatriculation" required />
+    <input class="border p-2" type="number" [(ngModel)]="nouveauVehicule.prix" name="prix" placeholder="Prix" />
+    <select class="border p-2" [(ngModel)]="nouveauVehicule.carburant" name="carburant">
+      <option>ESSENCE</option><option>DIESEL</option><option>HYBRIDE</option><option>GPL</option><option>ELECTRIQUE</option>
+    </select>
+    <select class="border p-2" [(ngModel)]="nouveauVehicule.type" name="type">
+      <option>VOITURE</option><option>MOTO</option><option>BUS</option><option>MINI_BUS</option><option>CAMION</option>
+    </select>
+    <button class="col-span-3 bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Ajouter</button>
+  </form>
+
+  <!-- TABLEAU DES VÉHICULES -->
+  <table class="min-w-full border">
+    <thead class="bg-gray-200">
+      <tr>
+        <th>Marque</th>
+        <th>Modèle</th>
+        <th>Immatriculation</th>
+        <th>Prix</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of vehicules" class="border-b">
+        <td>{{ v.marque }}</td>
+        <td>{{ v.modele }}</td>
+        <td>{{ v.immatriculation }}</td>
+        <td>{{ v.prix | currency:'XOF' }}</td>
+        <td>{{ v.statut }}</td>
+        <td class="space-x-2">
+          <button class="bg-green-500 text-white px-2 rounded" (click)="editVehicule(v)">Modifier</button>
+          <button class="bg-red-500 text-white px-2 rounded" (click)="supprimerVehicule(v.id!)">Supprimer</button>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<!-- MODIFICATION -->
+<div *ngIf="selectedVehicule" class="mt-6 bg-white p-4 border rounded">
+  <h3 class="font-semibold mb-2">Modifier le véhicule</h3>
+
+  <form (ngSubmit)="modifierVehicule()">
+    <input class="border p-2 mb-2 w-full" name="editMarque" [(ngModel)]="selectedVehicule.marque" placeholder="Marque" />
+    <input class="border p-2 mb-2 w-full" name="editModele" [(ngModel)]="selectedVehicule.modele" placeholder="Modèle" />
+    <input class="border p-2 mb-2 w-full" name="editPrix" type="number" [(ngModel)]="selectedVehicule.prix" placeholder="Prix" />
+    <button type="submit" class="bg-blue-600 text-white p-2 rounded">Enregistrer</button>
+    <button type="button" class="ml-2 p-2" (click)="cancelEdit()">Annuler</button>
+  </form>
+</div>
+
+
+  <!-- AFFICHAGE DES IMAGES -->
+  <!-- <div *ngIf="images.length" class="mt-6">
+    <h3 class="font-semibold">Images associées</h3>
+    <div class="flex gap-4 mt-2">
+      <img *ngFor="let img of images"
+           [src]="'data:image/jpeg;base64,' + img.contenu"
+           [alt]="img.libelle"
+           class="w-32 h-24 object-cover rounded shadow" />
+    </div>
+  </div> -->
+</div>
+
