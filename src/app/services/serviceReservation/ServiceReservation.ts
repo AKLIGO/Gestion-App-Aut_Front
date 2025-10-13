@@ -5,6 +5,7 @@ import { ReservationRequest } from '../../interfaces/gestions/Reservations/Reser
 import { Reservations } from '../../interfaces/gestions/Reservations/Reservations';
 import { ReservationResponseDTO } from '../../interfaces/gestions/Reservations/ReservationResponseDTO';
 import { ReservationRequestVehi } from '../../interfaces/gestions/Reservations/ReservationRequestVehi';  
+import { ReservationResponseVehi } from '../../interfaces/gestions/Reservations/ReservationResponseVehi';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,10 +29,18 @@ export class ServiceReservation {
     return this.http.get<ReservationResponseDTO[]>(`${this.apiUrl}/appartement/${appartementId}`);
   }
 
-    // Récupérer toutes les réservations
+    // Récupérer toutes les réservations lier uniquement aux appartements
   getAllReservations(): Observable<ReservationResponseDTO[]> {
-    return this.http.get<ReservationResponseDTO[]>(this.apiUrl);
+    return this.http.get<ReservationResponseDTO[]>(`${this.apiUrl}/appartements`);
   }
+  /**
+   * recuperer toutes les réservations lier uniquement aux véhicules
+   */
+  getAllReservationsVehi(): Observable<ReservationResponseVehi[]> {
+    return this.http.get<ReservationResponseVehi[]>(`${this.apiUrls}/vehicules`);
+  } 
+   
+
   /**
    * Supprimer une réservation par son ID
    * @param id ID de la réservation à supprimer
