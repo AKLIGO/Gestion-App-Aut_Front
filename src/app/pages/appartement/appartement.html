@@ -1,5 +1,8 @@
 <section class="py-16 px-4 bg-gray-100">
-  <h2 class="text-3xl font-bold text-center mb-12">Nos Appartements</h2>
+  <h2 class="text-3xl font-bold text-center mb-12 relative">
+  Nos Appartements
+  <span class="block w-16 h-1 bg-blue-500 mx-auto mt-2 rounded"></span>
+</h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div *ngFor="let appart of appartements; trackBy: trackByAppartementId" class="bg-white shadow-lg rounded-lg overflow-hidden">

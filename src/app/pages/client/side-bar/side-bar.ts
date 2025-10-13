@@ -27,5 +27,20 @@ export class SideBar {
     return user.roles.some(role => rolesAutorises.includes(role.name));
   }
 
+    // Pour le menu Réservations
+  showReservationSubmenu = false;
+
+  // Pour le menu Paiements
+  showPaiementSubmenu = false;
+
+  // Méthodes pour basculer l'affichage des sous-menus
+  toggleReservationMenu() {
+    this.showReservationSubmenu = !this.showReservationSubmenu;
+  }
+
+  togglePaiementMenu() {
+    this.showPaiementSubmenu = !this.showPaiementSubmenu;
+  }
+
 
 }

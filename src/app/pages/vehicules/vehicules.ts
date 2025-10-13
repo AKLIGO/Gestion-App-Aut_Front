@@ -7,6 +7,9 @@ import { ImageDTOv } from '../../interfaces/gestions/image/ImageDTOv';
 import { Carburant } from '../../interfaces/gestions/Vehicules/Carburant';
 import { StatutVehicule } from '../../interfaces/gestions/Vehicules/StatutVehicule';
 import { TypeVehicule } from '../../interfaces/gestions/Vehicules/TypeVehicule';
+import{ReservationRequestVehi} from '../../interfaces/gestions/Reservations/ReservationRequestVehi';
+import { ServiceReservation } from '../../services/serviceReservation/ServiceReservation';
+import { Reservation } from '../reservation/reservation';
 @Component({
   selector: 'app-vehicules',
   standalone: true,
@@ -19,8 +22,11 @@ export class Vehicules implements OnInit {
   vehicules: VehiculeDTO[] = [];
   selectedVehicule?: VehiculeDTO;
   images:ImageDTOv[] = [];
-   message = '';
-  constructor(private vehiculeService:VehiculeService) { }
+  message = '';
+
+  
+
+  constructor(private vehiculeService:VehiculeService, serviceReservation:ServiceReservation) { }
   ngOnInit(): void {
     this.loadVehicules();
   }

@@ -8,13 +8,21 @@ import { CurrencyPipe } from '@angular/common';
 import { AppartementDTO } from '../../interfaces/gestions/Appartement/AppartementDTO';
 import { StatutAppartement } from '../../interfaces/gestions/Appartement/StatutAppartement';
 import { TypeAppartement } from '../../interfaces/gestions/Appartement/TypeAppartement';
-
+import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-appartement',
   standalone: true,
   imports: [CommonModule, FormsModule, CurrencyPipe],
   templateUrl: './appartement.html',
-  styleUrls: ['./appartement.css']
+  styleUrls: ['./appartement.css'],
+    animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+      ])
+    ])
+  ]
 })
 export class Appartement implements OnInit {
 

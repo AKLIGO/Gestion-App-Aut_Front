@@ -2,51 +2,87 @@
   <aside class="w-64 bg-gray-100 p-4 flex flex-col">
     <h3 class="text-lg font-bold mb-4">Menu</h3>
     <ul class="space-y-2">
+
+      <!-- Dashboard -->
       <li>
-        <a routerLink="/dashboard" class="hover:text-blue-500">
+        <a routerLink="/dashboard" class="hover:text-blue-500 flex items-center">
           <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
         </a>
       </li>
+
+      <!-- Profil -->
       <li>
-        <a routerLink="/profile" class="hover:text-blue-500">
+        <a routerLink="/profile" class="hover:text-blue-500 flex items-center">
           <i class="fas fa-user mr-2"></i>Profil
         </a>
       </li>
-      <li>
-        <a routerLink="/reservations" class="hover:text-blue-500">
-          <i class="fas fa-calendar-check mr-2"></i>Réservations
-        </a>
-      </li>
-        <li>
-        <a routerLink="/paiements" class="hover:text-blue-500">
-          <i class="fas fa-calendar-check mr-2"></i>Paiements
-        </a>
 
-         <li>
-        <a routerLink="/gestionVehicules" class="hover:text-blue-500">
-          <i class="fas fa-calendar-check mr-2"></i>Gestion des Véhicules
+      <!-- Réservations avec sous-menu -->
+      <li>
+        <button (click)="toggleReservationMenu()" 
+                class="w-full text-left hover:text-blue-500 flex items-center justify-between">
+          <span><i class="fas fa-calendar-check mr-2"></i>Réservations</span>
+          <i class="fas" [ngClass]="{'fa-chevron-down': !showReservationSubmenu, 'fa-chevron-up': showReservationSubmenu}"></i>
+        </button>
+        <ul *ngIf="showReservationSubmenu" class="pl-6 mt-2 space-y-1">
+          <li>
+            <a routerLink="/reservationVehicule" class="hover:text-blue-500">Réservation Véhicule</a>
+          </li>
+          <li>
+            <a routerLink="/reservationsApp" class="hover:text-blue-500">Réservation Appartement</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Paiements avec sous-menu -->
+      <li>
+        <button (click)="togglePaiementMenu()" 
+                class="w-full text-left hover:text-blue-500 flex items-center justify-between">
+          <span><i class="fas fa-credit-card mr-2"></i>Paiements</span>
+          <i class="fas" [ngClass]="{'fa-chevron-down': !showPaiementSubmenu, 'fa-chevron-up': showPaiementSubmenu}"></i>
+        </button>
+        <ul *ngIf="showPaiementSubmenu" class="pl-6 mt-2 space-y-1">
+          <li>
+            <a routerLink="/paiementAppartement" class="hover:text-blue-500">Paiement Appartement</a>
+          </li>
+          <li>
+            <a routerLink="/paiementVehicule" class="hover:text-blue-500">Paiement Véhicule</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Gestion des Véhicules -->
+      <li>
+        <a routerLink="/gestionVehicules" class="hover:text-blue-500 flex items-center">
+          <i class="fas fa-car mr-2"></i>Gestion des Véhicules
         </a>
       </li>
+
+      <!-- Paramètres -->
       <li>
-        <a routerLink="/settings" class="hover:text-blue-500">
+        <a routerLink="/settings" class="hover:text-blue-500 flex items-center">
           <i class="fas fa-cog mr-2"></i>Paramètres
         </a>
       </li>
+
+      <!-- Gestion des Biens -->
       <li>
-        <a routerLink="/biens" class="hover:text-blue-500">
+        <a routerLink="/biens" class="hover:text-blue-500 flex items-center">
           <i class="fas fa-home mr-2"></i>Gestion des Biens
         </a>
       </li>
 
+      <!-- Gestion des Images -->
       <li>
-        <a routerLink="/image" class="hover:text-blue-500">
-          <i class="fas fa-home mr-2"></i>Gestion des Images
+        <a routerLink="/image" class="hover:text-blue-500 flex items-center">
+          <i class="fas fa-image mr-2"></i>Gestion des Images
         </a>
       </li>
 
+      <!-- Gestion des Immeubles -->
       <li>
-        <a routerLink="/immeuble" class="hover:text-blue-500">
-          <i class="fas fa-home mr-2"></i>Gestion des Immeuble
+        <a routerLink="/immeuble" class="hover:text-blue-500 flex items-center">
+          <i class="fas fa-building mr-2"></i>Gestion des Immeubles
         </a>
       </li>
 

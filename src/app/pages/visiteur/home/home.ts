@@ -8,12 +8,21 @@ import { ServiceImage } from '../../../services/servicesImage/service-image';
 import { ServiceReservation } from '../../../services/serviceReservation/ServiceReservation';
 import { FormsModule } from '@angular/forms'; // pour ngModel
 import { ImagesCreate } from '../../../interfaces/gestions/image/ImagesCreate';
+import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule,FormsModule,CurrencyPipe],
   templateUrl: './home.html',
-  styleUrls: ['./home.css']
+  styleUrls: ['./home.css'],
+    animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+      ])
+    ])
+  ]
 })
 export class Home implements OnInit,OnDestroy {
 

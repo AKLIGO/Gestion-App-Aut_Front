@@ -91,6 +91,43 @@
         </div>
       </div>
     </div>
+    <!-- Formulaire de réservation -->
+<div class="p-6 border-t bg-gray-50" *ngIf="selectedVehicule">
+  <div class="flex flex-col md:flex-row md:items-start md:gap-6">
+    <div class="flex-1">
+
+      <!-- Bouton pour afficher le formulaire -->
+      <button *ngIf="!showReservationForm" (click)="showReservationForm = true"
+              class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded mb-4">
+        Réserver ce véhicule
+      </button>
+
+      <!-- Formulaire de réservation -->
+      <div *ngIf="showReservationForm" class="mt-4">
+        <h4 class="text-lg font-semibold mb-4">Formulaire de réservation</h4>
+        <form (ngSubmit)="submitReservation(selectedVehicule!)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Date début</label>
+            <input type="date" [(ngModel)]="reservationForm.dateDebut" name="dateDebut"
+                   class="w-full border-gray-300 rounded p-2" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Date fin</label>
+            <input type="date" [(ngModel)]="reservationForm.dateFin" name="dateFin"
+                   class="w-full border-gray-300 rounded p-2" required>
+          </div>
+          <div class="md:col-span-2 text-right">
+            <button type="submit" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded">
+              Confirmer la réservation
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
     <div class="p-4 border-t text-right bg-white">
       <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 mr-2" (click)="closeDetails()">Fermer</button>
