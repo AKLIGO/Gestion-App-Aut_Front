@@ -16,6 +16,7 @@ import { Vehicules } from './pages/vehicules/vehicules';
 import { VehiculesVue } from './pages/vehicules-vue/vehicules-vue';
 import { ReservationVehicule } from './pages/reservation-vehicule/reservation-vehicule';
 import { PaiementVehicules } from './pages/paiement-vehicules/paiement-vehicules';
+import { ImageVehicule } from './pages/image-vehicule/image-vehicule';
 
 export const routes: Routes = [
     {path:'contact', component:Contact},
@@ -34,6 +35,7 @@ export const routes: Routes = [
     {path:'paiement-by-reservation/:reservationId', component:PaiementByReservation},
     {path:'reservationVehicule', component:ReservationVehicule},
     {path:'paiementVehicule', component:PaiementVehicules},
+    {path:'uploadImageVehicule', component:ImageVehicule},
     { path: '**', redirectTo: '' },
     
 

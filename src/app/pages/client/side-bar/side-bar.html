@@ -73,11 +73,39 @@
       </li>
 
       <!-- Gestion des Images -->
-      <li>
-        <a routerLink="/image" class="hover:text-blue-500 flex items-center">
-          <i class="fas fa-image mr-2"></i>Gestion des Images
-        </a>
-      </li>
+<!-- Gestion des Images -->
+<li class="relative group">
+  <!-- Menu parent -->
+  <div class="hover:text-blue-500 flex items-center w-full cursor-pointer">
+    <i class="fas fa-image mr-2"></i>
+    Gestion des Images
+    <i class="fas fa-chevron-down ml-1 text-xs transition-transform duration-300 group-hover:rotate-180"></i>
+  </div>
+
+  <!-- Sous-menu -->
+  <ul
+    class="absolute left-0 mt-2 w-56 bg-white text-gray-700 shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transform scale-y-0 group-hover:scale-y-100 origin-top transition-all duration-200 z-20"
+  >
+    <li>
+      <a
+        routerLink="/image"
+        class="block px-4 py-2 hover:bg-blue-100"
+      >
+        🏠 Ajout Image à l’appartement
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/uploadImageVehicule"
+        class="block px-4 py-2 hover:bg-blue-100"
+      >
+        🚗 Ajout Image aux véhicules
+      </a>
+    </li>
+  </ul>
+</li>
+
+
 
       <!-- Gestion des Immeubles -->
       <li>

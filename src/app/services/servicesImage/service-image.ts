@@ -23,6 +23,21 @@ export class ServiceImage {
       return this.http.post<ImagesCreate>(`${this.apiUrl}/ajoutImageApp`, formData);
     }
 
+    uploadImageToVehicule(
+    
+    libelle: string,
+    file: File,
+    immatriculationVehicule: string,
+  ): Observable<ImagesCreate | string> {
+
+    const formData = new FormData();
+    formData.append('libelle', libelle);
+    formData.append('file', file);
+    formData.append('immatriculationVehicule', immatriculationVehicule);
+
+    return this.http.post<ImagesCreate | string>(`${this.apiUrl}/ajoutImageTovehicule`, formData);
+  }
+
       //   //liste des images
       //   getAllImages():Observable<ImagesCreate[]>{
       //     return this.http.get<ImagesCreate[]>(this.apiUrl);
@@ -74,5 +89,14 @@ export class ServiceImage {
 //    createImageUrl(blob:Blob):string{   
 //     return URL.createObjectURL(blob);
 // }
+
+ listImagesVehicules(): Observable<ImagesCreate[]> {
+    return this.http.get<ImagesCreate[]>(`${this.apiUrl}/vehicules`);
+  }
+
+  listImagesAppartements(): Observable<ImagesCreate[]> {
+    return this.http.get<ImagesCreate[]>(`${this.apiUrl}/appartements`);
+  }
+
   
 }
