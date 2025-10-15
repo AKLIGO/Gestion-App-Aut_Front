@@ -4,6 +4,8 @@ import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { ServiceImage } from '../../services/servicesImage/service-image';
+import { ServiceApp } from '../../services/serviceApp/service-app';
+import { ImageDTO } from '../../interfaces/gestions/image/ImageDTO';
 
 @Component({
   standalone: true,
@@ -19,15 +21,97 @@ export class Image implements OnInit{
   isUploading: boolean = false;
   dragOver: boolean = false;
   appartementId: number | null = null;
+  message: string = '';
+  isSuccess: boolean = false;
+
+  appartements:{id:number, nom:string}[]=[];
+
+  images:ImageDTO[]=[];
+  selectedImage:ImageDTO | null = null;
+
+
+loadImagesAppartements(): void {
+  this.serviceImage.listImagesAppartements().subscribe({
+    next: (data) => {
+      this.images = data.map(img => ({
+        ...img,
+        previewUrl: this.serviceImage.getImageFileUrl(img.nomFichier)
+      }));
+    },
+    error: (err) => console.error('Erreur de chargement des images', err)
+  });
+}
+
+
+editImageAppart(img: ImageDTO): void {
+  if (!img.id) return;
+
+  // Ouvre une boîte de dialogue pour modifier le libellé
+  const updatedLibelle = prompt('Entrez le nouveau libellé de l’image :', img.libelle);
+  if (updatedLibelle === null || updatedLibelle.trim() === '') return; // annulation ou champ vide
+
+  // Crée un nouvel objet DTO à partir de l’image existante
+  const updatedDto: ImageDTO = {
+    id: img.id,
+    libelle: updatedLibelle.trim(),
+    nomFichier: img.nomFichier,
+    typeMime: img.typeMime,
+    appartementId: img.appartementId,
+    previewUrl: this.serviceImage.getImageFileUrl(img.nomFichier) // URL d’affichage
+  };
+
+  // Appel du service pour mettre à jour
+  this.serviceImage.updateAppartementImage(img.id, updatedDto).subscribe({
+    next: (res) => {
+      this.message = '✅ Image mise à jour avec succès !';
+      this.isSuccess = true;
+      this.loadImagesAppartements(); // recharge la liste
+    },
+    error: (err) => {
+      this.message = '❌ Erreur lors de la mise à jour de l’image.';
+      this.isSuccess = false;
+      console.error('Erreur update image appartement:', err);
+    }
+  });
+}
+
+deleteImageAppart(id: number): void {
+  if (!confirm('Voulez-vous vraiment supprimer cette image ?')) return;
+
+  this.serviceImage.deleteAppartementImage(id).subscribe({
+    next: () => {
+      this.message = 'Image supprimée avec succès !';
+      this.isSuccess = true;
+      // Actualiser la liste après suppression
+      this.loadImagesAppartements();
+    },
+    error: (err) => {
+      this.message = 'Erreur lors de la suppression de l\'image.';
+      this.isSuccess = false;
+      console.error(err);
+    }
+  });
+}
+
+
 
   constructor(
     private serviceImage:ServiceImage,
-    private router:Router
+    private router:Router,
+    private serviceApp:ServiceApp
   ){}
 
   ngOnInit():void{
+    this.loadAppartements();
+    this.loadImagesAppartements();
 
   }
+    loadAppartements():void{
+      this.serviceApp.getAllAppartementDto().subscribe({
+        next:(data)=> this.appartements=data.map(appart=>({id:appart.id as number, nom:appart.nom})),
+        error:(err)=> console.error('Erreur lors du chargement des appartements:', err)
+      });
+    }
 
   // selection du fichier
 

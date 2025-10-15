@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VehiculeDTO } from '../../interfaces/gestions/Vehicules/VehiculeDTO';
 import { ServiceImage } from '../../services/servicesImage/service-image';
 import { VehiculeService } from '../../services/serviceVehicule/VehiculeService';
+import { ImageDTOv } from '../../interfaces/gestions/image/ImageDTOv';
 
 @Pipe({ name: 'filePreview' })
 export class FilePreviewPipe implements PipeTransform {
@@ -30,6 +31,10 @@ export class ImageVehicule implements OnInit {
 
   vehicules: VehiculeDTO[] = [];
 
+  imagesVehicules:ImageDTOv[]=[];
+
+
+
   constructor(
     private imageService: ServiceImage,
     private vehiculeService: VehiculeService
@@ -37,6 +42,33 @@ export class ImageVehicule implements OnInit {
 
   ngOnInit(): void {
     this.loadVehicules();
+    this.loadImage();
+  }
+
+  getImageFileUrl(fileName: string): string {
+  return this.imageService.getImageFileUrl(fileName);
+}
+
+getImageUrl(img: ImageDTOv): string {
+  if (img?.nomFichier) return this.imageService.getImageFileUrl(img.nomFichier);
+  return 'https://via.placeholder.com/400x200';
+}
+
+getImmatriculationFromId(vehiculeId?: number): string {
+  if (!vehiculeId) return '';
+  const vehicule = this.vehicules.find(v => v.id === vehiculeId);
+  return vehicule ? vehicule.immatriculation : '';
+}
+
+
+
+
+  loadImage():void{
+    this.imageService.listImagesVehicules().subscribe({
+      next:data => this.imagesVehicules=data,
+      error:err =>console.error('Erreur de chargement des images',err)
+    });
+    
   }
 
   loadVehicules(): void {
@@ -104,4 +136,57 @@ export class ImageVehicule implements OnInit {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
   }
+
+
+
+  // Modifier une image
+editImage(img: ImageDTOv): void {
+  if (!img.id) return;
+
+  const updatedLibelle = prompt('Entrez le nouveau libellé', img.libelle);
+  if (updatedLibelle === null) return; // annulation
+
+  const updatedDto: ImageDTOv = {
+    libelle: updatedLibelle,
+    nomFichier: img.nomFichier,
+    vehiculeId: img.vehiculeId,
+    previewUrl: this.imageService.getImageFileUrl(img.nomFichier) 
+  };
+
+  this.imageService.updateVehiculeImage(img.id, updatedDto).subscribe({
+    next: (res) => {
+      this.message = 'Image mise à jour avec succès !';
+      this.isSuccess = true;
+      // Actualiser la liste
+      this.loadImage();
+    },
+    error: (err) => {
+      this.message = 'Erreur lors de la mise à jour de l\'image.';
+      this.isSuccess = false;
+      console.error(err);
+    }
+  });
+}
+
+// Supprimer une image
+deleteImage(id?: number): void {
+  if (!id) return;
+  const confirmDelete = confirm('Voulez-vous vraiment supprimer cette image ?');
+  if (!confirmDelete) return;
+
+  this.imageService.deleteVehiculeImage(id).subscribe({
+    next: () => {
+      this.message = 'Image supprimée avec succès !';
+      this.isSuccess = true;
+      // Actualiser la liste
+      this.loadImage();
+    },
+    error: (err) => {
+      this.message = 'Erreur lors de la suppression de l\'image.';
+      this.isSuccess = false;
+      console.error(err);
+    }
+  });
+}
+
 }

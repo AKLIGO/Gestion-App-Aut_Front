@@ -10,6 +10,7 @@ import { TypeVehicule } from '../../interfaces/gestions/Vehicules/TypeVehicule';
 import{ReservationRequestVehi} from '../../interfaces/gestions/Reservations/ReservationRequestVehi';
 import { ServiceReservation } from '../../services/serviceReservation/ServiceReservation';
 import { Reservation } from '../reservation/reservation';
+import { ImagesCreate } from '../../interfaces/gestions/image/ImagesCreate';
 @Component({
   selector: 'app-vehicules',
   standalone: true,
@@ -25,6 +26,8 @@ export class Vehicules implements OnInit {
   message = '';
 
   
+ 
+
 
   constructor(private vehiculeService:VehiculeService, serviceReservation:ServiceReservation) { }
   ngOnInit(): void {

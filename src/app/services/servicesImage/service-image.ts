@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ImagesCreate } from '../../interfaces/gestions/image/ImagesCreate';
+import { ImageDTOv } from '../../interfaces/gestions/image/ImageDTOv';
+import { ImageDTO } from '../../interfaces/gestions/image/ImageDTO';
 @Injectable({
   providedIn: 'root'
 })
@@ -72,6 +74,14 @@ export class ServiceImage {
     return `${this.apiUrl}/file/${encodeURIComponent(fileName)}`;
   }
 
+  /**
+   * 
+   * @param fileName facultative
+   * @returns 
+   */
+  getImageFileUrls(fileName: string): string {
+    return `${this.apiUrl}/file/${fileName}`;  
+}
     // Récupérer toutes les images libres
   getAllImagesLibres(): Observable<ImagesCreate[]> {
     return this.http.get<ImagesCreate[]>(`${this.apiUrl}/libres`);
@@ -90,12 +100,33 @@ export class ServiceImage {
 //     return URL.createObjectURL(blob);
 // }
 
- listImagesVehicules(): Observable<ImagesCreate[]> {
-    return this.http.get<ImagesCreate[]>(`${this.apiUrl}/vehicules`);
+ listImagesVehicules(): Observable<ImageDTOv[]> {
+    return this.http.get<ImageDTOv[]>(`${this.apiUrl}/vehicules`);
   }
 
-  listImagesAppartements(): Observable<ImagesCreate[]> {
-    return this.http.get<ImagesCreate[]>(`${this.apiUrl}/appartements`);
+
+  // --------- VEHICULE ---------
+  updateVehiculeImage(id: number, dto: ImageDTOv): Observable<ImageDTOv> {
+    return this.http.put<ImageDTOv>(`${this.apiUrl}/vehicule/${id}`, dto);
+  }
+
+  deleteVehiculeImage(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/vehicule/${id}`);
+  }
+
+  // --------- APPARTEMENT ---------
+  updateAppartementImage(id: number, dto: ImageDTO): Observable<ImageDTO> {
+    return this.http.put<ImageDTO>(`${this.apiUrl}/appartement/${id}`, dto);
+  }
+
+  deleteAppartementImage(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/appartement/${id}`);
+  }
+
+
+
+  listImagesAppartements(): Observable<ImageDTO[]> {
+    return this.http.get<ImageDTO[]>(`${this.apiUrl}/appartements`);
   }
 
   
