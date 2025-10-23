@@ -4,4 +4,5 @@ export interface UserDto {
     prenoms: string;
     email: string;
     roles: string[];
+    hasReservation: boolean;
   }

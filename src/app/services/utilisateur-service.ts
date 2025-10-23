@@ -12,7 +12,7 @@ import { UserDto } from '../interfaces/UserDto';
   providedIn: 'root'
 })
 export class UtilisateurService {
-  private readonly baseUrl = 'http://localhost:8080/auth';
+  private readonly baseUrl = 'http://localhost:8080/api/auth';
   private _isAuthenticated = signal<boolean>(false);
   private _currentUser = signal<Utilisateurs | null>(null);
   private _isLoading = signal<boolean>(false);

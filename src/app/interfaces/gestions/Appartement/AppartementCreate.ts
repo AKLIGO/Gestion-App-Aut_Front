@@ -17,5 +17,6 @@ export interface AppartementCreate{
     createdAt: string; 
     lastModifiedDate?: string;
     immeubleId?: number; 
+    proprietaireId:number;
     images?: ImagesCreate[];
 }
